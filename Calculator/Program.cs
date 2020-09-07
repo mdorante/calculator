@@ -4,8 +4,8 @@ namespace Calculator
 {
     class Program
     {
-        private static string _ERROR_MSG_ = "One of the two inputs is not a number.";
-        private static int _MAX_ATTEMPTS_ = 3;
+        private const string _ERROR_MSG_ = "One of the two inputs is not a number.";
+        private const int _MAX_ATTEMPTS_ = 3;
 
         static void Main(string[] args)
         {
@@ -14,6 +14,7 @@ namespace Calculator
             float num1 = 0;
             float num2 = 0;
 
+            #region USER_INPUT
             while (notNumbers && attemptsLeft > 0)
             {
                 Console.WriteLine("Please enter number:");
@@ -32,7 +33,9 @@ namespace Calculator
                     attemptsLeft--;
                 }
             }
+            #endregion
 
+            #region RAN_OUT_OF_ATTEMPTS
             if (attemptsLeft == 0)
             {
                 Console.Clear();
@@ -43,45 +46,61 @@ namespace Calculator
                 Console.Read();
                 return;
             }
+            #endregion
 
+            #region OPERATIONS
             int option;
-
+            string history = "History:" + Environment.NewLine;
             do
             {
+                string operation;
+
                 Console.Clear();
                 Console.WriteLine("Select the operation you wish to execute:");
                 Console.WriteLine("1 - Sum");
                 Console.WriteLine("2 - Subtract");
                 Console.WriteLine("3 - Multiply");
                 Console.WriteLine("4 - Divide");
-                Console.WriteLine("0 - Exit");
+                Console.WriteLine("5 - Show history");
+                Console.WriteLine("6 - Exit");
 
-                bool isNum = int.TryParse(Console.ReadLine(), out option);
+                int.TryParse(Console.ReadLine(), out option);
 
                 Console.Clear();
                 switch (option)
                 {
-                    case 0:
-                        Console.WriteLine("Exit...");
-                        break;
                     case 1:
-                        Console.WriteLine($"{num1} + {num2} = {num1 + num2}");
+                        operation = $"{num1} + {num2} = {num1 + num2}";
+                        Console.WriteLine(operation);
+                        history += $"{DateTime.Now.ToString()} {operation} {Environment.NewLine}";
                         break;
                     case 2:
-                        Console.WriteLine($"{num1} - {num2} = {num1 - num2}");
+                        operation = $"{num1} - {num2} = {num1 - num2}";
+                        Console.WriteLine(operation);
+                        history += $"{DateTime.Now.ToString()} {operation} {Environment.NewLine}";
                         break;
                     case 3:
-                        Console.WriteLine($"{num1} x {num2} = {num1 * num2}");
+                        operation = $"{num1} x {num2} = {num1 * num2}";
+                        Console.WriteLine(operation);
+                        history += $"{DateTime.Now.ToString()} {operation} {Environment.NewLine}";
                         break;
                     case 4:
                         if (num2 != 0)
                         {
-                            Console.WriteLine($"{num1} / {num2} = {num1 / num2}");
+                            operation = $"{num1} / {num2} = {num1 / num2}";
                         }
                         else
                         {
-                            Console.WriteLine("Division by zero is not possible.");
+                            operation = "Division by zero is not possible.";
                         }
+                        Console.WriteLine(operation);
+                        history += $"{DateTime.Now.ToString()} {operation} {Environment.NewLine}";
+                        break;
+                    case 5:
+                        Console.WriteLine(history);
+                        break;
+                    case 6:
+                        Console.WriteLine("Exit...");
                         break;
                     default:
                         Console.WriteLine("You did not select an available option.");
@@ -91,7 +110,8 @@ namespace Calculator
                 Console.WriteLine("Press enter to continue");
                 Console.ReadLine();
                 Console.Clear();
-            } while (option != 0);
+            } while (option != 6);
+            #endregion
 
             Environment.Exit(0);
         }
