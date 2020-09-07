@@ -6,6 +6,6 @@ Basic C# console calculator.
 
 - Asks the user to input 2 numbers
   - Validates correct input types
-- Display a menu with available operations
+- Displays a menu with available operations
   - Validates option exists
-- Display the result of the selected operation
+- Displays the result of the selected operation
